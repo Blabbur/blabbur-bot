@@ -5,7 +5,7 @@ from sgqlc.operation import Operation
 
 from bot.schema import Mutation, Query
 
-endpoint = HTTPEndpoint("http://localhost:3200/")
+endpoint = HTTPEndpoint("http://ec2-54-67-29-122.us-west-1.compute.amazonaws.com:3200/")
 
 
 class ApiException(Exception):
