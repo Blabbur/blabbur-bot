@@ -3,4 +3,5 @@ httpx
 pyyaml
 fire
 tqdm
+openai
 
