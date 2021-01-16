@@ -69,6 +69,15 @@ class User:
         do_op(op, token=self.token)
         self.data = self.get_user_data()
 
+    def new_tweet(self, content, tags=None):
+        if tags is None:
+            tags = []
+        op = Operation(Mutation)
+        op.new_tweet(text=content, tags=tags)
+        op.new_tweet.id()
+        response = do_op(op, self.token)
+        return response.new_tweet.id
+
     def get_user_data(self):
         op = Operation(Query)
         op.me()
@@ -85,13 +94,6 @@ class User:
         op.search_by_user.email()
         response = do_op(op, token=mastermind.token)
         return [user.email for user in response.search_by_user]
-
-    @staticmethod
-    def get_all_bot_users():
-        for email in User.get_all_bot_emails():
-            user = User.from_login(email)
-            print("FOUND BOT:", user)
-            yield user
 
     def __repr__(self):
         return repr(self.data)
