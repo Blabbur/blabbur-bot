@@ -11,3 +11,7 @@ with open(tokens_path) as tokens:
 
 def get_random_token():
     return random.choice(token_pool)
+
+
+def get_all_tokens():
+    return token_pool

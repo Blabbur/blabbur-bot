@@ -27,9 +27,10 @@ class User:
     DEFAULT_PASSWORD = "dumb_password"
     BOT_EMAIL_SUFFIX = "@botnet.com"
 
-    def __init__(self, token):
+    def __init__(self, token, fast=False):
         self.token = token
-        self.data = self.get_user_data()
+        if not fast:
+            self.data = self.get_user_data()
 
 
     @staticmethod
@@ -80,12 +81,68 @@ class User:
 
     def get_user_data(self):
         op = Operation(Query)
-        op.me()
+        op.me.id()
         op.me.firstname()
         op.me.lastname()
         op.me.handle()
         response = do_op(op, token=self.token)
         return response.me
+
+    def follow_user(self, other_user_id):
+        op = Operation(Mutation)
+        op.follow(id=other_user_id)
+        do_op(op, self.token)
+
+    def get_random_unfollowed_user(self):
+        op = Operation(Query)
+        op.users.id()
+        response = do_op(op, self.token)
+        return response.users[0]
+
+    def get_feed_content(self, include_own=False):
+        op = Operation(Query)
+        op.feed.tags()
+        op.feed.text()
+        op.feed.id()
+        op.feed.is_tweet_mine()
+        response = do_op(op, self.token)
+        feed = response.feed
+        if include_own:
+            return feed
+        return list(filter(lambda tweet: not tweet.is_tweet_mine, feed))
+
+    def get_tweet_comments(self, tweet_id, include_own=False):
+        op = Operation(Query)
+        op.tweet(id=tweet_id)
+        op.tweet.comments.id()
+        op.tweet.comments.text()
+        op.tweet.comments.is_comment_mine()
+        response = do_op(op, self.token)
+        comments = response.tweet.comments
+        if include_own:
+            return comments
+        return list(filter(lambda comment: not comment.is_comment_mine, comments))
+
+    ######################
+    # MAIN BOT ACIONS    #
+    ######################
+
+    def bot_tweet(self):
+        pass
+
+    def bot_reply(self):
+        pass
+
+    def bot_like(self):
+        pass
+
+    def bot_retweet(self):
+        pass
+
+    def bot_follow(self):
+        user = self.get_random_unfollowed_user()
+        self.follow_user(user.id)
+
 
     @staticmethod
     def get_all_bot_emails():

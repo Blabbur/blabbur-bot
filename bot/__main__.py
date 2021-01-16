@@ -2,7 +2,7 @@ import random
 
 from bot.namer import random_adjective, random_noun, random_first, random_last
 from bot import User
-from bot.tokens import get_random_token
+from bot.tokens import get_random_token, get_all_tokens
 
 
 def random_handle():
@@ -20,9 +20,14 @@ def random_bot():
 
 
 def main():
-    print("Getting random bot user:")
-    bot = random_bot()
-    print(bot)
+    for bot_token in get_all_tokens():
+        print("Token:", bot_token)
+        bot = User(bot_token)
+        n = random.randint(4, 20)
+        for i in range(n):
+            bot.follow_random_account()
+            print("Followed")
+        print("Done following", n)
 
 
 if __name__ == "__main__":
