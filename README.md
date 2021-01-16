@@ -8,5 +8,5 @@ tweet tweet
 python -m virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python src/main.py
+python bot
 ```
