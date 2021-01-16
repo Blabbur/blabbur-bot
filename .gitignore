@@ -131,3 +131,5 @@ dmypy.json
 # MINE
 venv_win/
 .idea/
+aws
+
