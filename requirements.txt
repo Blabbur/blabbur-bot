@@ -1,0 +1,6 @@
+sgqlc
+httpx
+pyyaml
+fire
+tqdm
+
