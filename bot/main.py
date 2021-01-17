@@ -1,8 +1,8 @@
 import random
 
-from .namer import random_adjective, random_noun, random_first, random_last
-from .user import User
-from .tokens import get_random_token, get_all_tokens
+from namer import random_adjective, random_noun, random_first, random_last
+from user import User
+from tokens import get_random_token, get_all_tokens
 
 
 def random_handle():

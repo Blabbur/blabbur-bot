@@ -3,7 +3,7 @@ import random
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
-from .schema import Mutation, Query
+from schema import Mutation, Query
 
 endpoint = HTTPEndpoint("http://ec2-54-67-29-122.us-west-1.compute.amazonaws.com:3200/")
 
