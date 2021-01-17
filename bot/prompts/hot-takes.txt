@@ -7,8 +7,10 @@ cooking:some people #cook for love, some people #cook for money, some people #co
 Python: hot take: the Python 3 adoption story is the ultimate case study in the importance of marketing
 death: hot take: life is a process of deferring the inevitable but death is the process of abandoning the effort
 Richard Dawkins: hot take: #Richard Dawkins is the atheist equivalent of the pope
-
-Canada: cinderella's little 🍁footprint #Canada #pedal inside and took my breath away
-the more you frack, the worse it gets for your hot take on climate change
-Twilight: and though Edward's not the ❤️, he's still the favorite #twilight sibling
-🔪: the founder of fsi was the co-founder of ng learn sign language on patreon 3x as many patrons than in january 2017 learn sign language show notes on patreon feedback @
+Billionaires: the real outrage here is that billionaires are not allowed to buy elections
+Zoom: hot take: Zoom has killed the meeting
+Ecommerce: the real cure for the Amazon marketplace duopoly problem is to go all-in on Fulfilled by Amazon
+atomic-interior types: the real hot take is that people like me just want to hide their ignorance in atomic types
+podcasting: you're not really a podcasting household until you're uploading reruns to a *previous* day on the *second* day of airing them
+unix: hot take: _real_ proper *vi* is superior to ed/ex/vi "for processing text" because even though it's displaying in ASCII, everything
+Perl 6: hot take: I like Perl-6. It may be for the same reason I like Illini. Perl is toast. Except among the hardcore who will begin to abandon Perl.
