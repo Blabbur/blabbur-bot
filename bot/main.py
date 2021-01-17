@@ -22,7 +22,7 @@ def random_bot():
 
 
 def bot_thread():
-    for i in range(0, 100):
+    while True:
         bot = random_bot()
         print(bot)
         bot.bot_action()
@@ -31,14 +31,16 @@ def bot_thread():
 # AP:  ckk0dwi5c15qc0999yvbvgj05
 # CNN: ckk0ifllb1ir50999l2kxopa2
 # MSNBC:ckk0jn1hqoiie0a26b5mnuptx
+# npr ckk0smn3l0irn0912ttmysb4h
+# latimes ckk0snp1r0jfo0912bzszdjkd
+
 
 def follow_by_all_bots(user_id):
     for token in get_all_tokens():
         print(token)
         user = User(token, fast=True)
-        user.follow_user("ckk0dwi5c15qc0999yvbvgj05")
-        user.follow_user("ckk0ifllb1ir50999l2kxopa2")
-        user.follow_user("ckk0jn1hqoiie0a26b5mnuptx")
+        user.follow_user("ckk0snp1r0jfo0912bzszdjkd")
+        user.follow_user("ckk0smn3l0irn0912ttmysb4h")
         print("Followed")
 
 

@@ -172,14 +172,14 @@ class User:
             "me_last": self.data.lastname,
             "me_handle": self.data.handle,
             "root": {
-                "text": tweet.text,
+                "text": tweet.text.replace("\n", ""),
                 "author_first": tweet.user.firstname,
                 "author_last": tweet.user.lastname,
                 "author_handle": tweet.user.handle,
             },
             "replies": [
                 {
-                    "text": comment.text,
+                    "text": comment.text.replace("\n", ""),
                     "author_first": comment.user.firstname,
                     "author_last": comment.user.lastname,
                     "author_handle": comment.user.handle,
@@ -192,7 +192,17 @@ class User:
         self.add_comment(tweet.id, reply_text)
 
     def do_random_new_tweet(self):
-        content = random_new_tweet()
+        texts = []
+        for tweet in self.get_feed_content(include_own=True)[:5]:
+            if "#news" in tweet.tags:
+                continue
+            texts.append({
+                "text": tweet.text.replace("\n", ""),
+                "author_first": tweet.user.firstname,
+                "author_last": tweet.user.lastname,
+                "author_handle": tweet.user.handle,
+            })
+        content = random_new_tweet(texts)
         print("TWEET:", content)
         self.new_tweet(content)
 
@@ -210,6 +220,7 @@ class User:
         for tweet in tweets:
             if random.random() > 0.2:
                 continue
+            print("REPLYING TO:", tweet)
             self.do_random_reply(tweet)
             return
 
