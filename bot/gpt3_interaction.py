@@ -5,18 +5,31 @@ import random
 import re
 
 
+def init_openai():
+    load_dotenv()
+    openai.api_key = os.getenv('OPENAI_SECRET')
+
+
 def react_to_news():
     reaction_types = ["positively", "negatively", "angrily", "joyously"]
     react_instruction = f'React to the following piece of news: "President-elect Joe Biden introduced his slate of scientific advisers with the promise that they would summon “science and ' \
                         "truth” to combat the pandemic, climate crisis and other challenges.\n"
-    load_dotenv()
-    openai.api_key = os.getenv('OPENAI_SECRET')
+    init_openai()
     response = openai.Completion.create(engine="davinci-instruct-beta", prompt=react_instruction, max_tokens=50, stop="\n\n")
     return response["choices"][0]["text"]
 
 
-def reply_to_thread():
-    pass
+def reply_to_thread(context):
+    moods = ["happy", "angry", "depressed", "jokey"]
+    thread = [context["root"]] + context["replies"]
+    prompt_text = f'The following is a Twitter exchange between many people. All of the people are {random.choice(moods)}.\n\n'
+    for tweet in thread:
+        prompt_text += f'{tweet["author_first"]} {tweet["author_last"]}: {tweet["text"]}\n'
+    prompt_text += f'{context["me_first"]} {context["me_last"]}:'
+
+    init_openai()
+    response = openai.Completion.create(engine="davinci", prompt=prompt_text, max_tokens=50, stop="\n")["choices"][0]["text"]
+    return response
 
 
 def random_new_tweet():
@@ -28,8 +41,7 @@ def random_new_tweet():
     prompt_tweets = random.sample(tweets_of_category, 5)
     prompt = '\n'.join(prompt_tweets) + '\n'
 
-    load_dotenv()
-    openai.api_key = os.getenv('OPENAI_SECRET')
+    init_openai()
     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"]
 
     with open(selected_type_file, 'a') as fd:
