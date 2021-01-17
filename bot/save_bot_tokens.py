@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from bot.user import User
+from .user import User
 
 
 tokens_path = os.path.join(str(Path(__file__).parent), "tokens/tokens.txt")
