@@ -1,2 +1,4 @@
 firstname,lastname,handle,email,password,twitterhandle
 AP,News,AP,ap@news.com,news-bot-ap,AP
+CNN,News,CNN,cnn@news.com,news-bot-cnn,CNN
+MSNBC,News,MSNBC,msnbc@news.com,news-bot-msnbc,MSNBC

@@ -30,7 +30,6 @@ for line in login_file.readlines()[1:]:
 
 while 1:
 	for org in orgs:
-		print(org[1])
 		tweet = api.user_timeline(org[1], count=1, tweet_mode='extended')[0]
 		try:
 			tweet_text = tweet.retweeted_status.full_text
@@ -41,4 +40,6 @@ while 1:
 			tweet_text = re.sub(r"http\S+", "", tweet_text)
 			tweet_hashtags = tweet.entities['hashtags']
 			org[0].new_tweet(tweet_text,tweet_hashtags)
+			print(org[1], "just tweeted:", tweet_text)
+			print('----------------------------------------------------')
 	time.sleep(60)
