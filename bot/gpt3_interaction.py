@@ -28,7 +28,7 @@ def reply_to_thread(context):
     prompt_text += f'{context["me_first"]} {context["me_last"]}:'
 
     init_openai()
-    response = openai.Completion.create(engine="davinci", prompt=prompt_text, max_tokens=50, stop="\n")["choices"][0]["text"]
+    response = openai.Completion.create(engine="davinci", prompt=prompt_text, max_tokens=50, temperature=0.9, stop="\n")["choices"][0]["text"]
     return response
 
 
