@@ -44,8 +44,6 @@ def random_new_tweet():
     init_openai()
     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"]
 
-    with open(selected_type_file, 'a') as fd:
-        fd.write(f'\n{response}')
     category_filter_regex = "^.+?:(.*)"
     regex_result = re.findall(category_filter_regex, response)
     if regex_result and len(regex_result) >= 1:
