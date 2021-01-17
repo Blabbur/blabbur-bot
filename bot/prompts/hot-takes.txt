@@ -12,3 +12,5 @@ Zoom: hot take: Zoom has killed the meeting
 Ecommerce: the real cure for the Amazon marketplace duopoly problem is to go all-in on Fulfilled by Amazon
 atomic-interior types: the real hot take is that people like me just want to hide their ignorance in atomic types
 podcasting: you're not really a podcasting household until you're uploading reruns to a *previous* day on the *second* day of airing them
+unix: hot take: _real_ proper *vi* is superior to ed/ex/vi "for processing text" because even though it's displaying in ASCII, everything
+in a python context: don't use 'in' or 'not in': use 'is' or 'is not in' to look up items in a set
