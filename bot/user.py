@@ -106,7 +106,7 @@ class User:
         op.feed.id()
         op.feed.is_tweet_mine()
         op.feed.is_retweet()
-        op.feed.is_like()
+        op.feed.is_liked()
         response = do_op(op, self.token)
         feed = response.feed
         if include_own:
@@ -145,7 +145,8 @@ class User:
         return response.me.tweets
 
     def do_random_reply(self, tweet_id):
-        pass
+        comments = self.get_tweet_comments(tweet_id, include_own=False)
+
 
     def do_random_new_tweet(self):
         return
@@ -159,9 +160,11 @@ class User:
     ######################
 
     def bot_tweet(self):
+        print("BOT Tweet")
         self.do_random_new_tweet()
 
     def bot_reply(self):
+        print("BOT Reply")
         tweets = self.get_feed_content(include_own=False)
         for tweet in tweets:
             if random.random() > 0.2:
@@ -170,6 +173,7 @@ class User:
             return
 
     def bot_like(self):
+        print("BOT Like")
         tweets = self.get_feed_content(include_own=False)
         for tweet in tweets:
             if tweet.is_liked:
@@ -180,6 +184,7 @@ class User:
             return
 
     def bot_retweet(self):
+        print("BOT Retweet")
         tweets = self.get_feed_content(include_own=False)
         for tweet in tweets:
             if tweet.is_retweet:
@@ -190,6 +195,7 @@ class User:
             return
 
     def bot_follow(self):
+        print("BOT Follow")
         user = self.get_random_unfollowed_user()
         self.follow_user(user.id)
 
@@ -202,7 +208,7 @@ class User:
             (self.bot_like, 40),
         ]
         args = list(zip(*weights))
-        action = random.choices(args[0], weights=args[1])
+        action = random.choices(args[0], weights=args[1])[0]
         action()
 
     @staticmethod
