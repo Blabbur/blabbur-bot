@@ -208,7 +208,7 @@ class User:
         print("BOT Reply")
         tweets = self.get_feed_content(include_own=True)
         for tweet in tweets:
-            if random.random() > 1:
+            if random.random() > 0.2:
                 continue
             self.do_random_reply(tweet)
             return
@@ -219,7 +219,7 @@ class User:
         for tweet in tweets:
             if tweet.is_liked:
                 continue
-            if random.random() > 0.5:
+            if random.random() > 0.2:
                 continue
             self.toggle_like(tweet.id)
             return
@@ -230,7 +230,7 @@ class User:
         for tweet in tweets:
             if tweet.is_retweet:
                 continue
-            if random.random() > 0.5:
+            if random.random() > 0.2:
                 continue
             self.toggle_retweet(tweet.id)
             return
@@ -245,8 +245,8 @@ class User:
             (self.bot_follow, 1),
             (self.bot_tweet, 10),
             (self.bot_reply, 20),
-            (self.bot_retweet, 30),
-            (self.bot_like, 40),
+            (self.bot_retweet, 60),
+            (self.bot_like, 80),
         ]
         args = list(zip(*weights))
         action = random.choices(args[0], weights=args[1])[0]

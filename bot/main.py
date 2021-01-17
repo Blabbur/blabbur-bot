@@ -4,6 +4,7 @@ from threading import Thread
 from namer import random_adjective, random_noun, random_first, random_last
 from user import User
 from tokens import get_random_token, get_all_tokens
+from gpt3_interaction import random_new_tweet
 
 
 def random_handle():
@@ -43,7 +44,7 @@ def follow_by_all_bots(user_id):
 
 def main():
     threads = []
-    for i in range(5):
+    for i in range(1):
         thread = Thread(target=bot_thread)
         thread.start()
         threads.append(thread)
