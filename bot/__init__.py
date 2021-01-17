@@ -105,11 +105,16 @@ class User:
         op.feed.text()
         op.feed.id()
         op.feed.is_tweet_mine()
+        op.feed.is_retweet()
+        op.feed.is_like()
         response = do_op(op, self.token)
         feed = response.feed
         if include_own:
             return feed
         return list(filter(lambda tweet: not tweet.is_tweet_mine, feed))
+
+    def toggle_retweet(self):
+        pass
 
     def get_tweet_comments(self, tweet_id, include_own=False):
         op = Operation(Query)
@@ -122,6 +127,19 @@ class User:
         if include_own:
             return comments
         return list(filter(lambda comment: not comment.is_comment_mine, comments))
+
+    def toggle_retweet(self):
+        pass
+
+    def get_own_tweets(self):
+        op = Operation(Query)
+        op.me.tweets()
+        op.me.tweets.id()
+        op.me.tweets.text()
+        op.me.tweets.tags()
+        response = do_op(op, token=self.token)
+        return response.me.tweets
+
 
     ######################
     # MAIN BOT ACIONS    #
@@ -137,12 +155,19 @@ class User:
         pass
 
     def bot_retweet(self):
-        pass
+        tweets = self.get_feed_content(include_own=False)
+        for tweet in tweets:
+            if tweet.is_retweet:
+                continue
+            if random.random() > 0.5:
+                continue
+            self.toggle_retweet(tweet.id)
+
+
 
     def bot_follow(self):
         user = self.get_random_unfollowed_user()
         self.follow_user(user.id)
-
 
     @staticmethod
     def get_all_bot_emails():
