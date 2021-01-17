@@ -6,8 +6,12 @@ import regex
 
 
 def react_to_news():
-    react_instruction = "React to the following piece of news:"
-    pass
+    react_instruction = "React negatively to the following piece of news: President-elect Joe Biden introduced his slate of scientific advisers with the promise that they would summon “science and " \
+                        "truth” to combat the pandemic, climate crisis and other challenges.\n"
+    load_dotenv()
+    openai.api_key = os.getenv('OPENAI_SECRET')
+    response = openai.Completion.create(engine="davinci-instruct-beta", prompt=react_instruction, max_tokens=50, stop="\n\n")
+    return response["choices"][0]["text"]
 
 
 def reply_to_thread():
@@ -36,4 +40,4 @@ def random_new_tweet():
     return response
 
 
-print(random_new_tweet())
+print(react_to_news())
