@@ -20,16 +20,21 @@ def react_to_news():
 
 
 def reply_to_thread(context):
+    text_set = set()
     moods = ["happy", "supportive", "wholesome", "jokey", "comforting", "optimistic", "jovial", "kind", "sarcastic", "mocking"]
     thread = [context["root"]] + context["replies"]
     prompt_text = f'The following is a Twitter exchange between many people. All of the people are {random.choice(moods)}.\n\n'
     for tweet in thread:
         prompt_text += f'{tweet["author_handle"]}: {tweet["text"]}\n'
+        text_set.add(tweet["text"][:50])
     prompt_text += f'{context["me_handle"]}:'
 
     init_openai()
-    response = openai.Completion.create(engine="davinci", prompt=prompt_text, max_tokens=50, temperature=0.9, stop="\n")["choices"][0]["text"].strip()
-    return response
+    for i in range(5):
+        response = openai.Completion.create(engine="davinci", prompt=prompt_text, max_tokens=50, temperature=0.9, stop="\n")["choices"][0]["text"].strip()
+        if response[:50] not in text_set:
+            return response
+    return openai.Completion.create(engine="davinci", prompt="Tweet:", max_tokens=50, temperature=0.9, stop="\n")["choices"][0]["text"].strip()
 
 
 # def random_new_tweet():
