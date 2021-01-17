@@ -3,6 +3,7 @@ import tweepy
 from os import environ
 from dotenv import load_dotenv
 import time
+import re
 
 load_dotenv()
 
@@ -37,6 +38,7 @@ while 1:
 			tweet_text = tweet.full_text
 		if(tweet_text != org[2]):
 			org[2] = tweet_text
+			tweet_text = re.sub(r"http\S+", "", tweet_text)
 			tweet_hashtags = tweet.entities['hashtags']
 			org[0].new_tweet(tweet_text,tweet_hashtags)
 	time.sleep(60)
