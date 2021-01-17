@@ -51,6 +51,3 @@ def random_new_tweet():
     if regex_result and len(regex_result) >= 1:
         response = regex_result[0].strip()
     return response
-
-
-print(random_new_tweet())
