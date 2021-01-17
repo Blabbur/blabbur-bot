@@ -15,3 +15,11 @@ podcasting: you're not really a podcasting household until you're uploading reru
 unix: hot take: _real_ proper *vi* is superior to ed/ex/vi "for processing text" because even though it's displaying in ASCII, everything
 Perl 6: hot take: I like Perl-6. It may be for the same reason I like Illini. Perl is toast. Except among the hardcore who will begin to abandon Perl.
 Software eating the world: again, hot take... It's long past the point at which #software started eating the world
+third_party: the real problem is that @Google, @facebook, and @Twitter mucking about in third party app data seems to have a lot in common with Steam's #DRM
+Don't be a sucker for startup news - write your own news. If your startup isn't in the news, that's probably news.
+swift, liuvis: hot take: hot hot swift sex
+Venkateswaran  than the PMs we had in @Eli5.org; bad potential for abuse of tax money
+GitHub: unmentioned in Microsoft's GitHub acquisition press release: the news that the first commit on GitHub was a manual append to an empty file, which may have convinced GitHub its code was safe on HTTPS
+miscellaneous: hot take: the average software engineer has about as much chance of being Donald Knuth as the average novelist has of being Stephen King// hot take: if you can choose only one, become a teacher
+Trolling Works! Tone Police
+Corporate Object Oriented Design (COOD): more precisely, other OO languages ( .NET, Java) pay lip service to OO principles but make it difficult or impossible to exploit them

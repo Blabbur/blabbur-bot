@@ -164,6 +164,8 @@ class User:
 
     def do_random_reply(self, tweet):
         comments = self.get_tweet_comments(tweet.id, include_own=True)
+        if len(comments) > random.random() * 8:
+            return
         context = {
             "me_first": self.data.firstname,
             "me_last": self.data.lastname,

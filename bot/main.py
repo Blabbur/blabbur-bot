@@ -27,6 +27,12 @@ def bot_thread():
         bot.bot_action()
 
 
+
+# MEDIA CORP IDS:
+# AP:  ckk0dwi5c15qc0999yvbvgj05
+# CNN: ckk0ifllb1ir50999l2kxopa2
+# MSNBC:ckk0jn1hqoiie0a26b5mnuptx
+
 def follow_by_all_bots(user_id):
     for token in get_all_tokens():
         print(token)
