@@ -16,7 +16,8 @@ def reply_to_thread():
 
 def random_new_tweet():
     tweet_types = ["hot-takes.txt", "jokes.txt"]
-    tweets_of_category = open(f'prompts/{random.choice(tweet_types)}').read().splitlines()
+    selected_type_file = f'prompts/{random.choice(tweet_types)}'
+    tweets_of_category = open(selected_type_file).read().splitlines()
 
     # topics = ["Trump", "Facebook", "personality tests", "LeBron James", "smoking", "cooking", "astrology"]
     prompt_tweets = random.sample(tweets_of_category, 5)
@@ -26,8 +27,13 @@ def random_new_tweet():
     openai.api_key = os.getenv('OPENAI_SECRET')
     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"]
 
+    with open(selected_type_file, 'a') as fd:
+        fd.write(f'\n{response}')
     category_filter_regex = "^.+?:(.*)"
     regex_result = regex.match(category_filter_regex, response)
     if regex_result and len(regex_result) > 1:
         response = regex_result[1].strip()
-    print(response)
+    return response
+
+
+print(random_new_tweet())
