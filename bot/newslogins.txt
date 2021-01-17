@@ -1,0 +1,2 @@
+firstname,lastname,handle,email,password,twitterhandle
+AP,News,AP,ap@news.com,news-bot-ap,AP
