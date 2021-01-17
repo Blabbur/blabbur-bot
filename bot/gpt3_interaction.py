@@ -11,7 +11,7 @@ def init_openai():
 
 
 def react_to_news():
-    reaction_types = ["positively", "negatively", "angrily", "joyously"]
+    reaction_types = ["positively", "wholesomely", "angrily", "joyously"]
     react_instruction = f'React to the following piece of news: "President-elect Joe Biden introduced his slate of scientific advisers with the promise that they would summon “science and ' \
                         "truth” to combat the pandemic, climate crisis and other challenges.\n"
     init_openai()
@@ -20,7 +20,7 @@ def react_to_news():
 
 
 def reply_to_thread(context):
-    moods = ["happy", "angry", "depressed", "jokey"]
+    moods = ["happy", "supportive", "wholesome", "jokey", "comforting", "optimistic", "jovial", "kind", "sarcastic", "mocking"]
     thread = [context["root"]] + context["replies"]
     prompt_text = f'The following is a Twitter exchange between many people. All of the people are {random.choice(moods)}.\n\n'
     for tweet in thread:
@@ -32,20 +32,30 @@ def reply_to_thread(context):
     return response
 
 
-def random_new_tweet():
-    tweet_types = ["hot-takes", "jokes"]
-    selected_type_file = f'prompts/{random.choice(tweet_types)}.txt'
-    tweets_of_category = open(selected_type_file).read().splitlines()
+# def random_new_tweet():
+#     tweet_types = ["hot-takes", "jokes"]
+#     selected_type_file = f'prompts/{random.choice(tweet_types)}.txt'
+#     tweets_of_category = open(selected_type_file).read().splitlines()
+#
+#     # topics = ["Trump", "Facebook", "personality tests", "LeBron James", "smoking", "cooking", "astrology"]
+#     prompt_tweets = random.sample(tweets_of_category, 5)
+#     prompt = '\n'.join(prompt_tweets) + '\n'
+#
+#     init_openai()
+#     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"]
+#
+#     category_filter_regex = "^.+?:(.*)"
+#     regex_result = re.findall(category_filter_regex, response)
+#     if regex_result and len(regex_result) >= 1:
+#         response = regex_result[0].strip()
+#     return response
 
-    # topics = ["Trump", "Facebook", "personality tests", "LeBron James", "smoking", "cooking", "astrology"]
-    prompt_tweets = random.sample(tweets_of_category, 5)
-    prompt = '\n'.join(prompt_tweets) + '\n'
 
+def random_new_tweet(context):
+    prompt = ""
+    for tweet in context["tweets"]:
+        prompt += f'{tweet["author_handle"]}: {tweet["text"]}\n'
+    prompt += f'{context["me_handle"]}'
     init_openai()
     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"]
-
-    category_filter_regex = "^.+?:(.*)"
-    regex_result = re.findall(category_filter_regex, response)
-    if regex_result and len(regex_result) >= 1:
-        response = regex_result[0].strip()
-    return response
+    pass
