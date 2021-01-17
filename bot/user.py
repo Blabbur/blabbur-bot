@@ -1,9 +1,11 @@
 import random
+import urllib.error
 
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
 from schema import Mutation, Query
+from gpt3_interaction import reply_to_thread, random_new_tweet
 
 endpoint = HTTPEndpoint("http://ec2-54-67-29-122.us-west-1.compute.amazonaws.com:3200/")
 
@@ -13,14 +15,18 @@ class ApiException(Exception):
 
 
 def do_op(op, token=None):
-    headers = None
-    if token is not None:
-        headers = {"Authorization": token}
-    json_response = endpoint(op, extra_headers=headers)
-    if "errors" in json_response:
-        raise ApiException(json_response["errors"])
-    response = op + json_response
-    return response
+    while True:
+        try:
+            headers = None
+            if token is not None:
+                headers = {"Authorization": token}
+            json_response = endpoint(op, extra_headers=headers)
+            if "errors" in json_response:
+                raise ApiException(json_response["errors"])
+            response = op + json_response
+            return response
+        except urllib.error.URLError:
+            print("Recovered from error")
 
 
 class User:
@@ -107,6 +113,8 @@ class User:
         op.feed.is_tweet_mine()
         op.feed.is_retweet()
         op.feed.is_liked()
+        op.feed.user.firstname()
+        op.feed.user.lastname()
         response = do_op(op, self.token)
         feed = response.feed
         if include_own:
@@ -118,6 +126,8 @@ class User:
         op.tweet(id=tweet_id)
         op.tweet.comments.id()
         op.tweet.comments.text()
+        op.tweet.comments.user.firstname()
+        op.tweet.comments.user.lastname()
         op.tweet.comments.is_comment_mine()
         response = do_op(op, self.token)
         comments = response.tweet.comments
@@ -144,16 +154,39 @@ class User:
         response = do_op(op, token=self.token)
         return response.me.tweets
 
-    def do_random_reply(self, tweet_id):
-        comments = self.get_tweet_comments(tweet_id, include_own=False)
+    def add_comment(self, tweet_id, reply_text):
+        op = Operation(Mutation)
+        op.add_comment(id=tweet_id, text=reply_text)
+        op.add_comment.id()
+        do_op(op, self.token)
 
+    def do_random_reply(self, tweet):
+        comments = self.get_tweet_comments(tweet.id, include_own=True)
+        context = {
+            "me_first": self.data.firstname,
+            "me_last": self.data.lastname,
+            "root": {
+                "text": tweet.text,
+                "author_first": tweet.user.firstname,
+                "author_last": tweet.user.lastname,
+            },
+            "replies": [
+                {
+                    "text": comment.text,
+                    "author_first": comment.user.firstname,
+                    "author_last": comment.user.lastname,
+                }
+                for comment in comments
+            ]
+        }
+        reply_text = reply_to_thread(context)
+        print("REPLY:", reply_text)
+        self.add_comment(tweet.id, reply_text)
 
     def do_random_new_tweet(self):
-        return
-        raw_content = "TODO: RANDOM CONTENT"
-        content = raw_content
-        tags = raw_content.split()
-        self.new_tweet(content, tags)
+        content = random_new_tweet()
+        print("TWEET:", content)
+        self.new_tweet(content)
 
     ######################
     # MAIN BOT ACIONS    #
@@ -165,11 +198,11 @@ class User:
 
     def bot_reply(self):
         print("BOT Reply")
-        tweets = self.get_feed_content(include_own=False)
+        tweets = self.get_feed_content(include_own=True)
         for tweet in tweets:
-            if random.random() > 0.2:
+            if random.random() > 1:
                 continue
-            self.do_random_reply(tweet.id)
+            self.do_random_reply(tweet)
             return
 
     def bot_like(self):

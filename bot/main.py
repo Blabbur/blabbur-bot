@@ -1,4 +1,5 @@
 import random
+from threading import Thread
 
 from namer import random_adjective, random_noun, random_first, random_last
 from user import User
@@ -19,8 +20,20 @@ def random_bot():
     return User(get_random_token())
 
 
+
+def bot_thread():
+    for i in range(0, 100):
+        bot = random_bot()
+        print(bot)
+        bot.bot_action()
+
+
 def main():
-    pass
+    threads = []
+    for i in range(5):
+        thread = Thread(target=bot_thread)
+        thread.start()
+        threads.append(thread)
 
 
 if __name__ == "__main__":
