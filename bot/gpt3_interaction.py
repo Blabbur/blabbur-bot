@@ -59,7 +59,8 @@ def reply_to_thread(context):
 def random_new_tweet(context):
     prompt = ""
     for tweet in context["tweets"]:
-        prompt += f'{tweet["author_handle"]}: {tweet["text"]}\n'
+        cleaned = re.sub(r"#\w", "", tweet["text"])
+        prompt += f'{tweet["author_handle"]}: {cleaned}\n'
     prompt += f'{context["me_handle"]}:'
     init_openai()
     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"].strip()

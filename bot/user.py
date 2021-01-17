@@ -164,7 +164,8 @@ class User:
         do_op(op, self.token)
 
     def do_random_reply(self, tweet):
-        comments = self.get_tweet_comments(tweet.id, include_own=True)
+        comments = self.get_tweet_comments(tweet.id, include_own=True)[-3:]
+
         if len(comments) > random.random() * 8:
             return
         context = {
@@ -191,9 +192,10 @@ class User:
         print("REPLY:", reply_text)
         self.add_comment(tweet.id, reply_text)
 
-    def do_random_new_tweet(self):
+    def get_random_new_tweet(self):
         tweets = []
-        for tweet in self.get_feed_content(include_own=True)[:5]:
+        count = 0
+        for tweet in self.get_feed_content(include_own=True):
             if "#news" in tweet.tags:
                 continue
             tweets.append({
@@ -202,6 +204,10 @@ class User:
                 "author_last": tweet.user.lastname,
                 "author_handle": tweet.user.handle,
             })
+            count += 1
+            if count > 5:
+                break
+
         context = {
             "me_first": self.data.firstname,
             "me_last": self.data.lastname,
@@ -209,6 +215,30 @@ class User:
             "tweets": tweets,
         }
         content = random_new_tweet(context)
+        return content
+
+    def get_recent_user_tweet(self):
+        op = Operation(Query)
+        op.search_by_tag(term="#blabbur")
+        op.search_by_tag.id()
+        op.search_by_tag.tags()
+        op.search_by_tag.text()
+        op.search_by_tag.id()
+        op.search_by_tag.is_tweet_mine()
+        op.search_by_tag.is_retweet()
+        op.search_by_tag.is_liked()
+        op.search_by_tag.user.firstname()
+        op.search_by_tag.user.lastname()
+        op.search_by_tag.user.handle()
+        response = do_op(op, token=self.token)
+        for tweet in response.search_by_tag[::-1]:
+            if random.random() > 0.5:
+                continue
+            return tweet
+        return response.search_by_tag[-1]
+
+    def do_random_new_tweet(self):
+        content = self.get_random_new_tweet()
         print("TWEET:", content)
         self.new_tweet(content)
 
@@ -257,17 +287,28 @@ class User:
         user = self.get_random_unfollowed_user()
         self.follow_user(user.id)
 
+    def bot_user_reply(self):
+        print("BOT User Reply!!!")
+        tweet = self.get_recent_user_tweet()
+        try:
+            self.follow_user(tweet.user.id)
+        except:
+            pass
+        self.do_random_reply(tweet)
+
     def bot_action(self):
         weights = [
             (self.bot_follow, 1),
             (self.bot_tweet, 10),
             (self.bot_reply, 20),
-            (self.bot_retweet, 60),
-            (self.bot_like, 80),
+            (self.bot_user_reply, 30),
+            (self.bot_retweet, 300),
+            (self.bot_like, 400),
         ]
         args = list(zip(*weights))
         action = random.choices(args[0], weights=args[1])[0]
         action()
+
 
     @staticmethod
     def get_all_bot_emails():

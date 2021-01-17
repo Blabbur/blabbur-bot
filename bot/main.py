@@ -39,14 +39,13 @@ def follow_by_all_bots(user_id):
     for token in get_all_tokens():
         print(token)
         user = User(token, fast=True)
-        user.follow_user("ckk0snp1r0jfo0912bzszdjkd")
-        user.follow_user("ckk0smn3l0irn0912ttmysb4h")
+        user.follow_user("ckk0u6liv0xfq0912le4dggoc")
         print("Followed")
 
 
 def main():
     threads = []
-    for i in range(1):
+    for i in range(3):
         thread = Thread(target=bot_thread)
         thread.start()
         threads.append(thread)
