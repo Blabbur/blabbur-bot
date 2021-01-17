@@ -79,6 +79,7 @@ class User:
     def new_tweet(self, content, tags=None):
         if tags is None:
             tags = []
+        content = content.replace("#", "")
         op = Operation(Mutation)
         op.new_tweet(text=content, tags=tags)
         op.new_tweet.id()

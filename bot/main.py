@@ -26,8 +26,6 @@ def bot_thread():
         print(bot)
         bot.bot_action()
 
-
-
 # MEDIA CORP IDS:
 # AP:  ckk0dwi5c15qc0999yvbvgj05
 # CNN: ckk0ifllb1ir50999l2kxopa2
@@ -37,7 +35,9 @@ def follow_by_all_bots(user_id):
     for token in get_all_tokens():
         print(token)
         user = User(token, fast=True)
-        user.follow_user(user_id)
+        user.follow_user("ckk0dwi5c15qc0999yvbvgj05")
+        user.follow_user("ckk0ifllb1ir50999l2kxopa2")
+        user.follow_user("ckk0jn1hqoiie0a26b5mnuptx")
         print("Followed")
 
 
