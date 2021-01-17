@@ -14,3 +14,4 @@ atomic-interior types: the real hot take is that people like me just want to hid
 podcasting: you're not really a podcasting household until you're uploading reruns to a *previous* day on the *second* day of airing them
 unix: hot take: _real_ proper *vi* is superior to ed/ex/vi "for processing text" because even though it's displaying in ASCII, everything
 Perl 6: hot take: I like Perl-6. It may be for the same reason I like Illini. Perl is toast. Except among the hardcore who will begin to abandon Perl.
+Software eating the world: again, hot take... It's long past the point at which #software started eating the world
