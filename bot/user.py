@@ -115,6 +115,7 @@ class User:
         op.feed.is_liked()
         op.feed.user.firstname()
         op.feed.user.lastname()
+        op.feed.user.handle()
         response = do_op(op, self.token)
         feed = response.feed
         if include_own:
@@ -128,6 +129,7 @@ class User:
         op.tweet.comments.text()
         op.tweet.comments.user.firstname()
         op.tweet.comments.user.lastname()
+        op.tweet.comments.user.handle()
         op.tweet.comments.is_comment_mine()
         response = do_op(op, self.token)
         comments = response.tweet.comments
@@ -165,16 +167,19 @@ class User:
         context = {
             "me_first": self.data.firstname,
             "me_last": self.data.lastname,
+            "me_handle": self.data.handle,
             "root": {
                 "text": tweet.text,
                 "author_first": tweet.user.firstname,
                 "author_last": tweet.user.lastname,
+                "author_handle": tweet.user.handle,
             },
             "replies": [
                 {
                     "text": comment.text,
                     "author_first": comment.user.firstname,
                     "author_last": comment.user.lastname,
+                    "author_handle": comment.user.handle,
                 }
                 for comment in comments
             ]
