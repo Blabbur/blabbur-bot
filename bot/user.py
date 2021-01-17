@@ -192,17 +192,23 @@ class User:
         self.add_comment(tweet.id, reply_text)
 
     def do_random_new_tweet(self):
-        texts = []
+        tweets = []
         for tweet in self.get_feed_content(include_own=True)[:5]:
             if "#news" in tweet.tags:
                 continue
-            texts.append({
+            tweets.append({
                 "text": tweet.text.replace("\n", ""),
                 "author_first": tweet.user.firstname,
                 "author_last": tweet.user.lastname,
                 "author_handle": tweet.user.handle,
             })
-        content = random_new_tweet(texts)
+        context = {
+            "me_first": self.data.firstname,
+            "me_last": self.data.lastname,
+            "me_handle": self.data.handle,
+            "tweets": tweets,
+        }
+        content = random_new_tweet(context)
         print("TWEET:", content)
         self.new_tweet(content)
 
