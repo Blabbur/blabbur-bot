@@ -226,4 +226,4 @@ class User:
 MASTER_BOT_EMAIL = "master@mind.com"
 MASTER_BOT_PASSWORD = "iamsupersmart"
 mastermind = User.from_login(MASTER_BOT_EMAIL, MASTER_BOT_PASSWORD)
-mastermind.bot_action()
+print(mastermind)

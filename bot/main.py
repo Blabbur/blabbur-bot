@@ -20,14 +20,7 @@ def random_bot():
 
 
 def main():
-    for bot_token in get_all_tokens():
-        print("Token:", bot_token)
-        bot = User(bot_token)
-        n = random.randint(4, 20)
-        for i in range(n):
-            bot.follow_random_account()
-            print("Followed")
-        print("Done following", n)
+    pass
 
 
 if __name__ == "__main__":
