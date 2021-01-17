@@ -55,7 +55,7 @@ def random_new_tweet(context):
     prompt = ""
     for tweet in context["tweets"]:
         prompt += f'{tweet["author_handle"]}: {tweet["text"]}\n'
-    prompt += f'{context["me_handle"]}'
+    prompt += f'{context["me_handle"]}:'
     init_openai()
     response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=50, stop="\n")["choices"][0]["text"].strip()
     return response
