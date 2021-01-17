@@ -42,4 +42,4 @@ while 1:
 			org[0].new_tweet(tweet_text,tweet_hashtags)
 			print(org[1], "just tweeted:", tweet_text)
 			print('----------------------------------------------------')
-	time.sleep(60)
+	time.sleep(60 * 15)
