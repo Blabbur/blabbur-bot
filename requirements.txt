@@ -5,3 +5,4 @@ fire
 tqdm
 openai
 python-dotenv
+tweepy
