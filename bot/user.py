@@ -196,7 +196,7 @@ class User:
         tweets = []
         count = 0
         for tweet in self.get_feed_content(include_own=True):
-            if "#news" in tweet.tags:
+            if "#news" in tweet.tags and random.random() > 0.5:
                 continue
             tweets.append({
                 "text": tweet.text.replace("\n", ""),
@@ -227,6 +227,7 @@ class User:
         op.search_by_tag.is_tweet_mine()
         op.search_by_tag.is_retweet()
         op.search_by_tag.is_liked()
+        op.search_by_tag.user.id()
         op.search_by_tag.user.firstname()
         op.search_by_tag.user.lastname()
         op.search_by_tag.user.handle()
@@ -289,8 +290,8 @@ class User:
 
     def bot_user_reply(self):
         print("BOT User Reply!!!")
-        tweet = self.get_recent_user_tweet()
         try:
+            tweet = self.get_recent_user_tweet()
             self.follow_user(tweet.user.id)
         except:
             pass

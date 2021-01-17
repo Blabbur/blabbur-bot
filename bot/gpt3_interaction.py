@@ -35,9 +35,9 @@ def reply_to_thread(context):
         if response[:50] not in text_set:
             return response
     return openai.Completion.create(engine="davinci", prompt="Tweet:", max_tokens=50, temperature=0.9, stop="\n")["choices"][0]["text"].strip()
-
-
-# def random_new_tweet():
+#
+#
+# def random_new_tweet(_):
 #     tweet_types = ["hot-takes", "jokes"]
 #     selected_type_file = f'prompts/{random.choice(tweet_types)}.txt'
 #     tweets_of_category = open(selected_type_file).read().splitlines()
@@ -60,6 +60,7 @@ def random_new_tweet(context):
     prompt = ""
     for tweet in context["tweets"]:
         cleaned = re.sub(r"#\w", "", tweet["text"])
+        cleaned = cleaned.replace("labbur", "")
         prompt += f'{tweet["author_handle"]}: {cleaned}\n'
     prompt += f'{context["me_handle"]}:'
     init_openai()
