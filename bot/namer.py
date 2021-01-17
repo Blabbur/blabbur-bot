@@ -2,7 +2,7 @@ import random
 import os
 from pathlib import Path
 
-d = str(Path(__file__).parent)
+d = os.path.join(str(Path(__file__).parent), "names")
 
 with open(os.path.join(d, "nouns.txt")) as nouns:
     noun_pool = list(map(lambda s: s[:-1], nouns.readlines()))

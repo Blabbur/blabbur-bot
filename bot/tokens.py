@@ -2,7 +2,7 @@ import os
 import random
 from pathlib import Path
 
-tokens_path = os.path.join(str(Path(__file__).parent), "tokens.txt")
+tokens_path = os.path.join(str(Path(__file__).parent), "tokens", "tokens.txt")
 
 
 with open(tokens_path) as tokens:
