@@ -24,8 +24,8 @@ def reply_to_thread(context):
     thread = [context["root"]] + context["replies"]
     prompt_text = f'The following is a Twitter exchange between many people. All of the people are {random.choice(moods)}.\n\n'
     for tweet in thread:
-        prompt_text += f'{tweet["author_first"]} {tweet["author_last"]}: {tweet["text"]}\n'
-    prompt_text += f'{context["me_first"]} {context["me_last"]}:'
+        prompt_text += f'{tweet["author_handle"]}: {tweet["text"]}\n'
+    prompt_text += f'{context["me_handle"]}:'
 
     init_openai()
     response = openai.Completion.create(engine="davinci", prompt=prompt_text, max_tokens=50, temperature=0.9, stop="\n")["choices"][0]["text"].strip()
