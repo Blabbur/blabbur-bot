@@ -113,9 +113,6 @@ class User:
             return feed
         return list(filter(lambda tweet: not tweet.is_tweet_mine, feed))
 
-    def toggle_retweet(self):
-        pass
-
     def get_tweet_comments(self, tweet_id, include_own=False):
         op = Operation(Query)
         op.tweet(id=tweet_id)
@@ -128,8 +125,15 @@ class User:
             return comments
         return list(filter(lambda comment: not comment.is_comment_mine, comments))
 
-    def toggle_retweet(self):
-        pass
+    def toggle_retweet(self, tweet_id):
+        op = Operation(Mutation)
+        op.toggle_retweet(id=tweet_id)
+        do_op(op, self.token)
+
+    def toggle_like(self, tweet_id):
+        op = Operation(Mutation)
+        op.toggle_like(id=tweet_id)
+        do_op(op, self.token)
 
     def get_own_tweets(self):
         op = Operation(Query)
@@ -140,19 +144,40 @@ class User:
         response = do_op(op, token=self.token)
         return response.me.tweets
 
+    def do_random_reply(self, tweet_id):
+        pass
+
+    def do_random_new_tweet(self):
+        return
+        raw_content = "TODO: RANDOM CONTENT"
+        content = raw_content
+        tags = raw_content.split()
+        self.new_tweet(content, tags)
 
     ######################
     # MAIN BOT ACIONS    #
     ######################
 
     def bot_tweet(self):
-        pass
+        self.do_random_new_tweet()
 
     def bot_reply(self):
-        pass
+        tweets = self.get_feed_content(include_own=False)
+        for tweet in tweets:
+            if random.random() > 0.2:
+                continue
+            self.do_random_reply(tweet.id)
+            return
 
     def bot_like(self):
-        pass
+        tweets = self.get_feed_content(include_own=False)
+        for tweet in tweets:
+            if tweet.is_liked:
+                continue
+            if random.random() > 0.5:
+                continue
+            self.toggle_like(tweet.id)
+            return
 
     def bot_retweet(self):
         tweets = self.get_feed_content(include_own=False)
@@ -162,12 +187,23 @@ class User:
             if random.random() > 0.5:
                 continue
             self.toggle_retweet(tweet.id)
-
-
+            return
 
     def bot_follow(self):
         user = self.get_random_unfollowed_user()
         self.follow_user(user.id)
+
+    def bot_action(self):
+        weights = [
+            (self.bot_follow, 1),
+            (self.bot_tweet, 10),
+            (self.bot_reply, 20),
+            (self.bot_retweet, 30),
+            (self.bot_like, 40),
+        ]
+        args = list(zip(*weights))
+        action = random.choices(args[0], weights=args[1])
+        action()
 
     @staticmethod
     def get_all_bot_emails():
@@ -184,3 +220,4 @@ class User:
 MASTER_BOT_EMAIL = "master@mind.com"
 MASTER_BOT_PASSWORD = "iamsupersmart"
 mastermind = User.from_login(MASTER_BOT_EMAIL, MASTER_BOT_PASSWORD)
+mastermind.bot_action()
